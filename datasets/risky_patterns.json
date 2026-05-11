@@ -1,0 +1,211 @@
+{
+  "Auto Renewal": {
+    "severity": "high",
+    "description": "Automatically renews subscriptions or memberships without requiring fresh user consent.",
+    "examples": [
+      "subscription renews automatically unless cancelled",
+      "membership renews every year automatically",
+      "billing recurs monthly without further notice"
+    ]
+  },
+
+  "Data Sharing": {
+    "severity": "critical",
+    "description": "Allows personal information to be shared with external parties, creating privacy and security risks.",
+    "examples": [
+      "we may share your personal data with third parties",
+      "user information may be disclosed to partners",
+      "your data can be transferred to advertisers"
+    ]
+  },
+
+  "Termination Rights": {
+    "severity": "high",
+    "description": "Gives the company broad authority to suspend or terminate accounts without warning.",
+    "examples": [
+      "we may terminate your account at any time",
+      "services may be discontinued without notice",
+      "access can be revoked at sole discretion"
+    ]
+  },
+
+  "Hidden Charges": {
+    "severity": "critical",
+    "description": "Permits unexpected fees or pricing changes that may financially impact users.",
+    "examples": [
+      "additional fees may apply without prior notice",
+      "service charges can be modified at any time",
+      "pricing may change without user consent"
+    ]
+  },
+
+  "Liability Waiver": {
+    "severity": "critical",
+    "description": "Limits or removes the company’s responsibility for damages, losses, or legal claims.",
+    "examples": [
+      "we are not responsible for any damages",
+      "users waive the right to legal claims",
+      "company holds no liability for losses"
+    ]
+  },
+
+  "Forced Arbitration": {
+    "severity": "high",
+    "description": "Requires disputes to be resolved privately instead of through courts.",
+    "examples": [
+      "all disputes must be resolved through arbitration",
+      "users waive the right to court proceedings",
+      "legal disputes shall not be litigated in court"
+    ]
+  },
+
+  "Content Ownership Transfer": {
+    "severity": "critical",
+    "description": "Transfers ownership or broad usage rights of user-created content to the company.",
+    "examples": [
+      "uploaded content becomes property of the company",
+      "users grant perpetual rights to submitted material",
+      "platform may reuse your content without compensation"
+    ]
+  },
+
+  "Location Tracking": {
+    "severity": "critical",
+    "description": "Allows continuous collection or monitoring of a user’s physical location.",
+    "examples": [
+      "application may collect real-time location data",
+      "gps information can be monitored continuously",
+      "user movements may be tracked for analytics"
+    ]
+  },
+
+  "Behavioral Monitoring": {
+    "severity": "high",
+    "description": "Tracks user actions and interactions for profiling or analytics purposes.",
+    "examples": [
+      "usage patterns may be analyzed for profiling",
+      "activities within the platform can be monitored",
+      "interaction history may be recorded for insights"
+    ]
+  },
+
+  "Third-Party Cookies": {
+    "severity": "medium",
+    "description": "Permits external services to track browsing activity using cookies or similar technologies.",
+    "examples": [
+      "third-party cookies may be stored on your device",
+      "advertising partners can track browser activity",
+      "external analytics tools may collect browsing behavior"
+    ]
+  },
+
+  "Data Retention": {
+    "severity": "high",
+    "description": "Allows the company to retain user data even after account deletion or inactivity.",
+    "examples": [
+      "personal information may be retained after account deletion",
+      "records can be stored for legal compliance purposes",
+      "deleted data may persist in backup systems"
+    ]
+  },
+
+  "Cross-Border Data Transfer": {
+    "severity": "high",
+    "description": "Permits user data to be stored or processed in foreign jurisdictions with different privacy laws.",
+    "examples": [
+      "information may be processed outside your country",
+      "user data can be transferred internationally",
+      "foreign servers may store personal records"
+    ]
+  },
+
+  "Biometric Data Usage": {
+    "severity": "critical",
+    "description": "Allows collection or processing of sensitive biometric identifiers such as fingerprints or facial scans.",
+    "examples": [
+      "facial recognition data may be collected",
+      "fingerprint information can be stored for authentication",
+      "biometric identifiers may be processed by the service"
+    ]
+  },
+
+  "Class Action Waiver": {
+    "severity": "high",
+    "description": "Prevents users from joining collective legal actions against the company.",
+    "examples": [
+      "users may not participate in class action lawsuits",
+      "claims must be filed individually",
+      "collective legal proceedings are prohibited"
+    ]
+  },
+
+  "Payment Method Authorization": {
+    "severity": "high",
+    "description": "Allows stored payment methods to be charged automatically under certain conditions.",
+    "examples": [
+      "saved payment methods may be charged automatically",
+      "billing information can be stored for future purchases",
+      "transactions may proceed using default payment settings"
+    ]
+  },
+
+  "Public Profile Visibility": {
+    "severity": "medium",
+    "description": "Makes certain user profile information publicly accessible or searchable.",
+    "examples": [
+      "certain profile details may be publicly accessible",
+      "usernames and activity can appear in search results",
+      "profile information may be visible to other users"
+    ]
+  },
+
+  "Automatic Updates": {
+    "severity": "medium",
+    "description": "Allows software or service features to change automatically without direct approval.",
+    "examples": [
+      "software updates may be installed automatically",
+      "features can be modified without user approval",
+      "system patches may be applied in the background"
+    ]
+  },
+
+  "Email Marketing Consent": {
+    "severity": "low",
+    "description": "Permits the company to send marketing or promotional communications.",
+    "examples": [
+      "users agree to receive promotional emails",
+      "marketing communications may be sent periodically",
+      "subscription includes advertising notifications"
+    ]
+  },
+
+  "Feature Removal": {
+    "severity": "medium",
+    "description": "Allows the company to discontinue or remove platform features without notice.",
+    "examples": [
+      "existing features may be discontinued permanently",
+      "tools can be removed without prior notification",
+      "certain functions may no longer be supported"
+    ]
+  },
+
+  "Refund Restrictions": {
+    "severity": "high",
+    "description": "Limits a user’s ability to recover payments or receive reimbursements.",
+    "examples": [
+      "payments may be non-refundable after processing",
+      "refund eligibility can be limited by policy",
+      "partial reimbursements may be denied at discretion"
+    ]
+  },
+
+  "Identity Verification": {
+    "severity": "medium",
+    "description": "Requires users to provide official documents or additional identity proof.",
+    "examples": [
+      "government identification may be requested",
+      "accounts can require additional identity confirmation",
+      "verification documents may be stored for compliance"
+    ]
+  }
+}
