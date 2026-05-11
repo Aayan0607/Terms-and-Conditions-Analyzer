@@ -1,14 +1,17 @@
 import spacy
 from sentence_transformers import SentenceTransformer
 from sklearn.cluster import AgglomerativeClustering
+from modules.config import (
+    MODEL_NAME,
+    MIN_CLUSTER_DIVISOR,
+    MIN_CLUSTERS
+)
 import numpy as np
 
 # Load spaCy
 nlp = spacy.load("en_core_web_sm")
 
-# Load embedding model
-model = SentenceTransformer('all-MiniLM-L6-v2')
-
+model = SentenceTransformer(MODEL_NAME)
 
 def preprocess_text(text):
 
@@ -31,7 +34,10 @@ def segment_clauses(text):
     embeddings = model.encode(sentences)
 
     # Dynamic cluster count
-    n_clusters = max(2, len(sentences) // 3)
+    n_clusters = max(
+    MIN_CLUSTERS,
+    len(sentences) // MIN_CLUSTER_DIVISOR
+)
 
     clustering = AgglomerativeClustering(
         n_clusters=n_clusters

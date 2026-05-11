@@ -191,7 +191,7 @@
 
   "Refund Restrictions": {
     "severity": "high",
-    "description": "Limits a user’s ability to recover payments or receive reimbursements.",
+    "description": "Limits a user's ability to recover payments or receive reimbursements.",
     "examples": [
       "payments may be non-refundable after processing",
       "refund eligibility can be limited by policy",

@@ -1,12 +1,13 @@
 import pdfplumber
 import pytesseract
 from PIL import Image
+from modules.config import TESSERACT_PATH
 import os
 
 
 # OPTIONAL
 # Change path if needed
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+pytesseract.pytesseract.tesseract_cmd = TESSERACT_PATH
 
 
 def extract_text_from_pdf(pdf_path):

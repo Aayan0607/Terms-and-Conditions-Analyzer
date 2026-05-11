@@ -2,10 +2,11 @@ import json
 import numpy as np
 
 from sentence_transformers import SentenceTransformer
+from modules.config import MODEL_NAME
 from sklearn.metrics.pairwise import cosine_similarity
 
 # Load embedding model
-model = SentenceTransformer('all-MiniLM-L6-v2')
+model = SentenceTransformer(MODEL_NAME)
 
 # Load risky patterns
 with open('datasets/risky_patterns.json', 'r') as file:

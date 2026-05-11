@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analysis Results</title>
+</head>
+
+<body>
+
+    <h1>Contract Risk Summary</h1>
+
+    <p><strong>Total Clauses:</strong> {{ total_clauses }}</p>
+
+    <p><strong>Critical Risks:</strong> {{ severity_count['critical'] }}</p>
+
+    <p><strong>High Risks:</strong> {{ severity_count['high'] }}</p>
+
+    <p><strong>Medium Risks:</strong> {{ severity_count['medium'] }}</p>
+
+    <p><strong>Low Risks:</strong> {{ severity_count['low'] }}</p>
+
+    <h2>Overall Contract Risk: {{ overall_risk }}</h2>
+
+    <hr>
+
+    {% for result in results %}
+
+    <div style="border:1px solid black;
+                padding:15px;
+                margin:15px;">
+
+        <h2>Clause {{ result.clause_number }}</h2>
+
+        <p>
+            <strong>Text:</strong>
+            {{ result.text }}
+        </p>
+
+        <p>
+            <strong>Category:</strong>
+            {{ result.category }}
+        </p>
+
+        <p>
+            <strong>Severity:</strong>
+            {{ result.severity }}
+        </p>
+
+        <p>
+            <strong>Similarity:</strong>
+            {{ result.similarity }}
+        </p>
+
+        <p>
+            <strong>Risk Score:</strong>
+            {{ result.risk_score }}/10
+        </p>
+
+        <p>
+            <strong>Explanation:</strong><br>
+            {{ result.explanation }}
+        </p>
+
+    </div>
+
+    {% endfor %}
+
+</body>
+</html>
