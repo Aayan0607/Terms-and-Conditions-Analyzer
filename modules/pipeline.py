@@ -29,6 +29,10 @@ def analyze_contract(text):
     # Analyze clauses
     for i, clause in enumerate(clauses, 1):
 
+        # Ignore tiny or meaningless fragments
+        if len(clause.split()) < 6:
+            continue
+
         result = classify_clause(clause)
 
         risk_score = calculate_risk_score(

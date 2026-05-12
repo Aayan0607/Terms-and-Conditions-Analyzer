@@ -55,7 +55,7 @@
     "examples": [
       "all disputes must be resolved through arbitration",
       "users waive the right to court proceedings",
-      "legal disputes shall not be litigated in court"
+      "disputes must be resolved through binding arbitration"
     ]
   },
 
@@ -76,26 +76,6 @@
       "application may collect real-time location data",
       "gps information can be monitored continuously",
       "user movements may be tracked for analytics"
-    ]
-  },
-
-  "Behavioral Monitoring": {
-    "severity": "high",
-    "description": "Tracks user actions and interactions for profiling or analytics purposes.",
-    "examples": [
-      "usage patterns may be analyzed for profiling",
-      "activities within the platform can be monitored",
-      "interaction history may be recorded for insights"
-    ]
-  },
-
-  "Third-Party Cookies": {
-    "severity": "medium",
-    "description": "Permits external services to track browsing activity using cookies or similar technologies.",
-    "examples": [
-      "third-party cookies may be stored on your device",
-      "advertising partners can track browser activity",
-      "external analytics tools may collect browsing behavior"
     ]
   },
 
@@ -139,53 +119,13 @@
     ]
   },
 
-  "Payment Method Authorization": {
+  "Payment Authorization": {
     "severity": "high",
     "description": "Allows stored payment methods to be charged automatically under certain conditions.",
     "examples": [
       "saved payment methods may be charged automatically",
       "billing information can be stored for future purchases",
       "transactions may proceed using default payment settings"
-    ]
-  },
-
-  "Public Profile Visibility": {
-    "severity": "medium",
-    "description": "Makes certain user profile information publicly accessible or searchable.",
-    "examples": [
-      "certain profile details may be publicly accessible",
-      "usernames and activity can appear in search results",
-      "profile information may be visible to other users"
-    ]
-  },
-
-  "Automatic Updates": {
-    "severity": "medium",
-    "description": "Allows software or service features to change automatically without direct approval.",
-    "examples": [
-      "software updates may be installed automatically",
-      "features can be modified without user approval",
-      "system patches may be applied in the background"
-    ]
-  },
-
-  "Email Marketing Consent": {
-    "severity": "low",
-    "description": "Permits the company to send marketing or promotional communications.",
-    "examples": [
-      "users agree to receive promotional emails",
-      "marketing communications may be sent periodically",
-      "subscription includes advertising notifications"
-    ]
-  },
-
-  "Feature Removal": {
-    "severity": "medium",
-    "description": "Allows the company to discontinue or remove platform features without notice.",
-    "examples": [
-      "existing features may be discontinued permanently",
-      "tools can be removed without prior notification",
-      "certain functions may no longer be supported"
     ]
   },
 
@@ -196,16 +136,6 @@
       "payments may be non-refundable after processing",
       "refund eligibility can be limited by policy",
       "partial reimbursements may be denied at discretion"
-    ]
-  },
-
-  "Identity Verification": {
-    "severity": "medium",
-    "description": "Requires users to provide official documents or additional identity proof.",
-    "examples": [
-      "government identification may be requested",
-      "accounts can require additional identity confirmation",
-      "verification documents may be stored for compliance"
     ]
   }
 }

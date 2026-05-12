@@ -43,9 +43,99 @@ def classify_clause(clause):
             best_severity = data["severity"]
             best_description = data["description"]
 
+    # Neutral threshold
+    # Dynamic thresholds based on severity
+    severity_thresholds = {
+        "critical": 0.72,
+        "high": 0.62,
+        "medium": 0.55,
+        "low": 0.50
+    }
+
+    required_threshold = severity_thresholds.get(best_severity, 0.60)
+
+    # Neutral if similarity is too weak
+    if best_similarity < required_threshold:
+
+        return {
+            "category": "Neutral",
+            "severity": "low",
+            "similarity_score": round(float(best_similarity), 2),
+            "description": "This clause appears informational or operational rather than risky."
+        }
+
+    # NEGATION DETECTION
+    NEGATION_TERMS = [
+        "not",
+        "never",
+        "no",
+        "does not",
+        "do not",
+        "is not",
+        "are not",
+        "without",
+        "won't",
+        "will not"
+    ]
+
+    POSITIVE_RISK_TERMS = [
+        "share",
+        "sell",
+        "collect",
+        "track",
+        "transfer",
+        "store",
+        "retain",
+        "disclose"
+    ]
+
+    SAFE_CONTEXT = [
+        "with user consent",
+        "users may cancel",
+        "retain full ownership",
+        "users retain ownership",
+        "advance notice",
+        "explicitly enables",
+        "not shared with advertisers",
+        "never sold",
+        "does not collect",
+        "not transferred",
+        "may opt out",
+        "can disable",
+        "can unsubscribe",
+        "subject to user approval",
+        "privacy controls",
+        "user controlled",
+        "optional feature"
+    ]
+
+    clause_lower = clause.lower()
+
+    has_negation = any(
+        term in clause_lower for term in NEGATION_TERMS
+    )
+
+    has_risk_action = any(
+        term in clause_lower for term in POSITIVE_RISK_TERMS
+    )
+
+    has_safe_context = any(
+        phrase in clause_lower for phrase in SAFE_CONTEXT
+    )
+
+    # Reduce false positives for protective clauses
+    if ((has_negation and has_risk_action)or has_safe_context):
+
+        return {
+            "category": "Neutral",
+            "severity": "low",
+            "similarity_score": round(float(best_similarity), 2),
+            "description": "This clause appears to protect user rights rather than introduce harmful conditions."
+        }
+
     return {
         "category": best_category,
         "severity": best_severity,
         "similarity_score": round(float(best_similarity), 2),
         "description": best_description
-    }
+    }   

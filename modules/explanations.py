@@ -6,7 +6,7 @@ def calculate_risk_score(similarity, severity, clause):
     base_score = SEVERITY_SCORES.get(severity, 5)
 
     # Similarity boost
-    similarity_boost = similarity * 2
+    similarity_boost = similarity * 1.5
 
     # Aggressive phrase boost
     aggressive_boost = 0
@@ -16,7 +16,11 @@ def calculate_risk_score(similarity, severity, clause):
     for term in AGGRESSIVE_TERMS:
 
         if term in clause_lower:
-            aggressive_boost += 0.5
+            aggressive_boost += 0.2
+    
+    # Neutral clauses should stay low-risk
+    if severity == "low" and similarity < 0.5:
+        return round(min(3 + aggressive_boost, 4), 1)
 
     final_score = base_score + similarity_boost + aggressive_boost
 
