@@ -1,80 +1,94 @@
+import re
 import spacy
-from sentence_transformers import SentenceTransformer
-from sklearn.cluster import AgglomerativeClustering
-from modules.config import (
-    MODEL_NAME,
-    MIN_CLUSTER_DIVISOR,
-    MIN_CLUSTERS
-)
-import numpy as np
+from sentence_transformers import SentenceTransformer, util
 
-# Load spaCy
+# Load spaCy model
 nlp = spacy.load("en_core_web_sm")
 
-model = SentenceTransformer(MODEL_NAME)
+# Load semantic embedding model
+# Good lightweight option for semantic similarity
+model = SentenceTransformer("all-MiniLM-L6-v2")
+
 
 def preprocess_text(text):
+    """
+    Clean raw legal/document text.
+    """
 
+    # Remove extra spaces/newlines
     text = text.replace("\n", " ")
+    text = re.sub(r"\s+", " ", text)
 
     return text.strip()
 
 
-def segment_clauses(text):
+def semantic_similarity(sent1, sent2):
+    """
+    Compute semantic similarity between two sentences.
+    """
+
+    emb1 = model.encode(sent1, convert_to_tensor=True)
+    emb2 = model.encode(sent2, convert_to_tensor=True)
+
+    score = util.cos_sim(emb1, emb2).item()
+
+    return score
+
+
+def segment_clauses(text, similarity_threshold=0.55):
+    """
+    Context-aware clause segmentation.
+
+    Groups semantically related sentences together
+    instead of relying only on keywords.
+    """
+
+    text = preprocess_text(text)
 
     doc = nlp(text)
 
-    # Extract sentences
-    sentences = [sent.text.strip() for sent in doc.sents]
+    # Step 1: Extract valid sentences
+    sentences = []
 
-    if len(sentences) <= 1:
-        return sentences
+    for sent in doc.sents:
 
-    # Generate embeddings
-    embeddings = model.encode(sentences)
+        cleaned = sent.text.strip()
 
-    # Dynamic cluster count
-    n_clusters = max(
-    MIN_CLUSTERS,
-    len(sentences) // MIN_CLUSTER_DIVISOR
-)
+        # Ignore tiny fragments
+        if len(cleaned.split()) < 4:
+            continue
 
-    clustering = AgglomerativeClustering(
-        n_clusters=n_clusters
-    )
+        # Ignore numeric/symbol garbage
+        if re.fullmatch(r"[\d\W]+", cleaned):
+            continue
 
-    labels = clustering.fit_predict(embeddings)
+        sentences.append(cleaned)
 
-    # Group sentences by cluster
-    clustered_sentences = {}
+    if not sentences:
+        return []
 
-    for idx, label in enumerate(labels):
+    # Step 2: Build semantic clauses
+    clauses = []
+    current_clause = [sentences[0]]
 
-        if label not in clustered_sentences:
-            clustered_sentences[label] = []
+    for i in range(1, len(sentences)):
 
-        clustered_sentences[label].append(
-            (idx, sentences[idx])
-        )
+        prev_sent = sentences[i - 1]
+        curr_sent = sentences[i]
 
-    # Preserve original order
-    ordered_clauses = []
+        similarity = semantic_similarity(prev_sent, curr_sent)
 
-    for label in clustered_sentences:
+        # If semantically related -> same clause
+        if similarity >= similarity_threshold:
+            current_clause.append(curr_sent)
 
-        sorted_group = sorted(clustered_sentences[label])
+        else:
+            # Start new clause
+            clauses.append(" ".join(current_clause))
+            current_clause = [curr_sent]
 
-        clause = " ".join(
-            sentence for _, sentence in sorted_group
-        )
+    # Add final clause
+    if current_clause:
+        clauses.append(" ".join(current_clause))
 
-        ordered_clauses.append(
-            (sorted_group[0][0], clause)
-        )
-
-    # Sort clauses back into original document order
-    ordered_clauses.sort(key=lambda x: x[0])
-
-    final_clauses = [clause for _, clause in ordered_clauses]
-
-    return final_clauses
+    return clauses

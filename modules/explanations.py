@@ -1,34 +1,71 @@
-from modules.utils import SEVERITY_SCORES, AGGRESSIVE_TERMS
+from modules.utils import (
+    SEVERITY_SCORES,
+    AGGRESSIVE_TERMS
+)
+
+
+# ---------------------------------------------------
+# RISK SCORE CALCULATION
+# ---------------------------------------------------
 
 def calculate_risk_score(similarity, severity, clause):
 
-    # Base score from severity
-    base_score = SEVERITY_SCORES.get(severity, 5)
+    clause_lower = clause.lower()
 
-    # Similarity boost
-    similarity_boost = similarity * 1.5
+    # -----------------------------------
+    # BASE SEVERITY SCORE
+    # -----------------------------------
 
-    # Aggressive phrase boost
+    base_score = SEVERITY_SCORES.get(
+        severity,
+        3
+    )
+
+    # -----------------------------------
+    # SIMILARITY CONTRIBUTION
+    # -----------------------------------
+
+    similarity_boost = similarity * 2
+
+    # -----------------------------------
+    # AGGRESSIVE LEGAL LANGUAGE
+    # -----------------------------------
+
     aggressive_boost = 0
 
-    clause_lower = clause.lower()
+    matched_terms = 0
 
     for term in AGGRESSIVE_TERMS:
 
         if term in clause_lower:
-            aggressive_boost += 0.2
-    
-    # Neutral clauses should stay low-risk
-    if severity == "low" and similarity < 0.5:
-        return round(min(3 + aggressive_boost, 4), 1)
 
-    final_score = base_score + similarity_boost + aggressive_boost
+            matched_terms += 1
 
-    # Cap at 10
-    final_score = min(final_score, 10)
+    # Controlled boosting
+    aggressive_boost = min(
+        matched_terms * 0.3,
+        2
+    )
+
+    # -----------------------------------
+    # FINAL SCORE
+    # -----------------------------------
+
+    final_score = (
+        base_score
+        + similarity_boost
+        + aggressive_boost
+    )
+
+    # Keep within range
+    final_score = max(1, min(final_score, 10))
 
     return round(final_score, 1)
 
+
+# ---------------------------------------------------
+# EXPLANATION GENERATION
+# ---------------------------------------------------
 
 def generate_explanation(category, description, clause):
 
@@ -38,8 +75,9 @@ def generate_explanation(category, description, clause):
     Reason:
     {description}
 
-    The system detected language patterns that may reduce user control,
-    increase company authority, or affect privacy/security rights.
+    The system detected legal or operational language patterns
+    associated with potential user risk, reduced control,
+    privacy concerns, financial obligations, or platform authority.
     """
 
     return explanation.strip()
