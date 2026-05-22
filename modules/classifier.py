@@ -1,24 +1,30 @@
 import json
 import numpy as np
 
-from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
 from modules.config import (
-    MODEL_NAME,
+    RISKY_PATTERNS_PATH,
     SIMILARITY_THRESHOLDS
 )
+from modules.model_store import get_embedding_model
 
 from modules.intent_rules import detect_intent
 
 
 # LOAD MODEL
-model = SentenceTransformer(MODEL_NAME)
+model = get_embedding_model()
 
 
 # LOAD RISK DATASET
-with open("datasets/risky_patterns.json", "r") as file:
+with open(RISKY_PATTERNS_PATH, "r", encoding="utf-8") as file:
     risky_patterns = json.load(file)
+
+
+RISK_REFERENCE_EMBEDDINGS = {
+    category: model.encode(data["examples"])
+    for category, data in risky_patterns.items()
+}
 
 
 # ---------------------------------------------------
@@ -87,6 +93,14 @@ def keyword_risk_boost(clause):
 # ---------------------------------------------------
 
 def classify_clause(clause):
+    if not clause or len(clause.split()) < 3:
+        return {
+            "category": "Low Risk Clause",
+            "severity": "low",
+            "similarity_score": 0.0,
+            "description": "This clause is too short to classify reliably.",
+            "intent": "low-risk"
+        }
 
     clause_embedding = model.encode([clause])
 
@@ -103,7 +117,7 @@ def classify_clause(clause):
 
         examples = data["examples"]
 
-        example_embeddings = model.encode(examples)
+        example_embeddings = RISK_REFERENCE_EMBEDDINGS[category]
 
         similarities = cosine_similarity(
             clause_embedding,
@@ -159,7 +173,7 @@ def classify_clause(clause):
     if intent == "protective":
 
         return {
-            "category": "Neutral",
+            "category": "Protective Clause",
             "severity": "low",
             "similarity_score": round(float(final_score), 2),
             "description": (
@@ -174,16 +188,27 @@ def classify_clause(clause):
     # ---------------------------------------------------
 
     if final_score < required_threshold:
+        fallback_severity = "medium" if final_score >= 0.35 else "low"
+        fallback_category = (
+            "Medium Risk Clause"
+            if fallback_severity == "medium"
+            else "Low Risk Clause"
+        )
+        fallback_intent = (
+            "medium-risk"
+            if fallback_severity == "medium"
+            else "low-risk"
+        )
 
         return {
-            "category": "Neutral",
-            "severity": "low",
+            "category": fallback_category,
+            "severity": fallback_severity,
             "similarity_score": round(float(final_score), 2),
             "description": (
-                "This clause appears informational "
-                "or operational."
+                "This clause does not strongly match the highest-risk patterns, "
+                "but it still contains language worth reviewing."
             ),
-            "intent": "neutral"
+            "intent": fallback_intent
         }
 
     return {

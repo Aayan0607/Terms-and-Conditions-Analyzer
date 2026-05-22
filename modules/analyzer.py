@@ -1,13 +1,11 @@
 import re
-import spacy
-from sentence_transformers import SentenceTransformer, util
+from sentence_transformers import util
 
-# Load spaCy model
-nlp = spacy.load("en_core_web_sm")
+from modules.model_store import get_embedding_model, get_nlp
+from modules.config import MIN_CLAUSE_WORDS
 
-# Load semantic embedding model
-# Good lightweight option for semantic similarity
-model = SentenceTransformer("all-MiniLM-L6-v2")
+nlp = get_nlp()
+model = get_embedding_model()
 
 
 def preprocess_text(text):
@@ -16,7 +14,7 @@ def preprocess_text(text):
     """
 
     # Remove extra spaces/newlines
-    text = text.replace("\n", " ")
+    text = (text or "").replace("\n", " ")
     text = re.sub(r"\s+", " ", text)
 
     return text.strip()
@@ -55,7 +53,7 @@ def segment_clauses(text, similarity_threshold=0.55):
         cleaned = sent.text.strip()
 
         # Ignore tiny fragments
-        if len(cleaned.split()) < 4:
+        if len(cleaned.split()) < max(4, MIN_CLAUSE_WORDS - 1):
             continue
 
         # Ignore numeric/symbol garbage

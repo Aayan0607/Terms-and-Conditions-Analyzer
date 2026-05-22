@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+    <link rel="stylesheet" href="{{ url_for('frontend.static', filename='style.css') }}">
+</head>
+<body>
+    <div class="page-shell results-shell">
+        <section class="results-hero">
+            <div>
+                <div class="hero-rule"></div>
+                <a href="{{ url_for('frontend.home') }}" class="text-link">Back to analyzer</a>
+                <span class="eyebrow">Analysis Complete</span>
+                <h1>Contract Risk Summary</h1>
+                <p class="hero-text">
+                    Review the highest-risk clauses first, then use the full list below to inspect
+                    low, medium, protective, and high-risk language in context.
+                </p>
+                <div class="hero-meta">
+                    <span>Priority-based findings</span>
+                    <span>Readable clause context</span>
+                    <span>Severity-led triage</span>
+                </div>
+            </div>
+            <div class="overall-risk-card risk-{{ overall_risk|lower }}">
+                <span>Overall Contract Risk</span>
+                <strong>{{ overall_risk }}</strong>
+            </div>
+        </section>
+
+        <section class="stat-grid">
+            <article class="stat-card">
+                <span>Total clauses reviewed</span>
+                <strong>{{ total_clauses }}</strong>
+            </article>
+            <article class="stat-card">
+                <span>Risky clauses</span>
+                <strong>{{ risky_clause_count }}</strong>
+            </article>
+            <article class="stat-card">
+                <span>Critical issues</span>
+                <strong>{{ severity_count['critical'] }}</strong>
+            </article>
+            <article class="stat-card">
+                <span>High severity</span>
+                <strong>{{ severity_count['high'] }}</strong>
+            </article>
+            <article class="stat-card">
+                <span>Medium severity</span>
+                <strong>{{ severity_count['medium'] }}</strong>
+            </article>
+            <article class="stat-card">
+                <span>Low severity</span>
+                <strong>{{ severity_count['low'] }}</strong>
+            </article>
+        </section>
+
+        <section class="results-toolbar">
+            <div class="toolbar-copy">
+                <h2>Clause Breakdown</h2>
+                <p>Sorted from highest to lowest risk score.</p>
+            </div>
+            <div class="toolbar-controls">
+                <label for="severity-filter">Filter by severity</label>
+                <select id="severity-filter">
+                    <option value="all">All clauses</option>
+                    <option value="critical">Critical</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="results-list" id="results-list">
+            {% for result in results %}
+            <article
+                class="result-card"
+                data-severity="{{ result.severity|lower }}"
+                data-intent="{{ result.intent|lower }}"
+            >
+                <div class="result-header">
+                    <div>
+                        <span class="clause-label">Clause {{ result.clause_number }}</span>
+                        <h3>{{ result.category }}</h3>
+                    </div>
+                    <div class="badge-row">
+                        <span class="severity-badge severity-{{ result.severity|lower }}">{{ result.severity|upper }}</span>
+                        <span class="intent-badge intent-{{ result.intent|lower }}">{{ result.intent|replace('-', ' ')|title }}</span>
+                    </div>
+                </div>
+
+                <div class="score-row">
+                    <div class="mini-metric">
+                        <span>Risk score</span>
+                        <strong>{{ result.risk_score }}/10</strong>
+                    </div>
+                    <div class="mini-metric">
+                        <span>Similarity</span>
+                        <strong>{{ result.similarity }}</strong>
+                    </div>
+                </div>
+
+                <div class="result-body">
+                    <div>
+                        <h4>Clause text</h4>
+                        <p>{{ result.text }}</p>
+                    </div>
+                    <div>
+                        <h4>Why it was flagged</h4>
+                        <p>{{ result.explanation }}</p>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </section>
+    </div>
+    <script src="{{ url_for('frontend.static', filename='app.js') }}"></script>
+</body>
+</html>

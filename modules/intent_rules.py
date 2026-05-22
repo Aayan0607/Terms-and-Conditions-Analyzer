@@ -61,7 +61,6 @@ RISK_ACTION_TERMS = [
 # ---------------------------------------------------
 
 def detect_intent(clause):
-
     clause_lower = clause.lower()
 
     has_negation = any(
@@ -86,4 +85,10 @@ def detect_intent(clause):
 
         return "protective"
 
-    return "risky"
+    if has_negation and has_risk_action:
+        return "low-risk"
+
+    if has_risk_action:
+        return "risky"
+
+    return "low-risk"

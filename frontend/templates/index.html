@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T&C Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('frontend.static', filename='style.css') }}">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="hero">
+            <div class="hero-copy">
+                <div class="hero-rule"></div>
+                <span class="eyebrow">AI-Powered Legal Risk Review</span>
+                <h1>Terms & Conditions Analyzer</h1>
+                <p class="hero-text">
+                    Review dense contracts, policies, and T&amp;C documents in a cleaner way.
+                    Paste text or upload a PDF/image to surface risky clauses, severity levels,
+                    and plain-English explanations.
+                </p>
+                <div class="hero-meta">
+                    <span>Legal Intelligence Interface</span>
+                    <span>Structured Clause Review</span>
+                    <span>Professional Risk Summary</span>
+                </div>
+                <div class="hero-highlights">
+                    <div class="highlight-card">
+                        <strong>Clause-by-clause review</strong>
+                        <span>Segmented analysis with explainable scoring.</span>
+                    </div>
+                    <div class="highlight-card">
+                        <strong>Privacy-friendly workflow</strong>
+                        <span>Designed to analyze documents without storing user data.</span>
+                    </div>
+                    <div class="highlight-card">
+                        <strong>PDF, image, or raw text</strong>
+                        <span>Bring in policies however you already have them.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-panel">
+                <div class="panel-heading">
+                    <span class="panel-kicker">Start Analysis</span>
+                    <h2>Upload a document or paste the contract text</h2>
+                    <p class="panel-note">Accepts text, PDF, and common image files up to {{ max_upload_size_mb }} MB.</p>
+                </div>
+
+                {% if error %}
+                <div class="alert alert-error">{{ error }}</div>
+                {% endif %}
+
+                <form action="/analyze" method="POST" enctype="multipart/form-data" class="analysis-form" id="analysis-form">
+                    <label for="contract_text" class="field-label">Contract text</label>
+                    <textarea
+                        id="contract_text"
+                        name="contract_text"
+                        rows="14"
+                        placeholder="Paste the full Terms & Conditions, privacy policy, or contract text here..."
+                    ></textarea>
+
+                    <div class="form-divider">
+                        <span>or</span>
+                    </div>
+
+                    <label for="file" class="field-label">Upload PDF or image</label>
+                    <label for="file" class="upload-dropzone" id="upload-dropzone">
+                        <input type="file" id="file" name="file" accept=".pdf,image/*">
+                        <span class="upload-title">Drop a file here or click to browse</span>
+                        <span class="upload-subtitle">Supports scanned pages, screenshots, and PDF exports.</span>
+                        <span class="upload-filename" id="upload-filename">No file selected</span>
+                    </label>
+
+                    <div class="form-footer">
+                        <button type="submit" class="primary-button">Analyze Contract</button>
+                        <button type="button" class="secondary-button" id="load-demo">Load Demo Text</button>
+                        <p class="helper-text">Tip: for the clearest result, provide complete clauses instead of snippets.</p>
+                    </div>
+                    <p class="form-status" id="form-status" aria-live="polite"></p>
+                </form>
+            </div>
+        </header>
+
+        <section class="info-strip">
+            <article>
+                <span>Detects</span>
+                <strong>liability waivers, auto-renewal, data sharing, arbitration, and more</strong>
+            </article>
+            <article>
+                <span>Scores</span>
+                <strong>severity and contract-level risk using semantic similarity + heuristics</strong>
+            </article>
+            <article>
+                <span>Explains</span>
+                <strong>why a clause is risky instead of only flagging keywords</strong>
+            </article>
+        </section>
+    </div>
+    <script src="{{ url_for('frontend.static', filename='app.js') }}"></script>
+</body>
+</html>
