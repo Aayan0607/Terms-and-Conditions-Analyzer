@@ -88,6 +88,22 @@ def keyword_risk_boost(clause):
     return min(score, 0.35)
 
 
+def build_fallback_description(best_category, best_description, fallback_severity):
+    if not best_category or not best_description:
+        return (
+            "This clause does not strongly match the highest-risk patterns, "
+            "but it still contains language worth reviewing."
+        )
+
+    severity_label = "medium" if fallback_severity == "medium" else "low"
+
+    return (
+        f"This clause is classified as {severity_label} risk because it only "
+        f"partially matches the '{best_category}' category. Closest-match reason: "
+        f"{best_description}"
+    )
+
+
 # ---------------------------------------------------
 # MAIN CLASSIFIER
 # ---------------------------------------------------
@@ -204,9 +220,10 @@ def classify_clause(clause):
             "category": fallback_category,
             "severity": fallback_severity,
             "similarity_score": round(float(final_score), 2),
-            "description": (
-                "This clause does not strongly match the highest-risk patterns, "
-                "but it still contains language worth reviewing."
+            "description": build_fallback_description(
+                best_category,
+                best_description,
+                fallback_severity
             ),
             "intent": fallback_intent
         }

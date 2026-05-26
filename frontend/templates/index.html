@@ -3,16 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T&C Analyzer</title>
+    <title>ClauseLens | Terms &amp; Conditions Analyzer</title>
     <link rel="stylesheet" href="{{ url_for('frontend.static', filename='style.css') }}">
 </head>
 <body>
     <div class="page-shell">
         <header class="hero">
             <div class="hero-copy">
+                <div class="brand-lockup" aria-label="ClauseLens">
+                    <img
+                        src="{{ url_for('frontend.static', filename='images/clauselens-mark.svg') }}"
+                        alt="ClauseLens logo"
+                        class="brand-mark"
+                    >
+                    <div class="brand-text">
+                        <span class="brand-name">ClauseLens</span>
+                        <span class="brand-tagline">Terms &amp; Conditions Analyzer</span>
+                    </div>
+                </div>
                 <div class="hero-rule"></div>
                 <span class="eyebrow">AI-Powered Legal Risk Review</span>
-                <h1>Terms & Conditions Analyzer</h1>
+                <h1>Read the fine print with more clarity.</h1>
                 <p class="hero-text">
                     Review dense contracts, policies, and T&amp;C documents in a cleaner way.
                     Paste text or upload a PDF/image to surface risky clauses, severity levels,

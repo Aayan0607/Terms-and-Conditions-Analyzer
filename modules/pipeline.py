@@ -162,9 +162,9 @@ def analyze_contract(text):
     # Final contract risk level:
     # - CRITICAL/HIGH depend on the share of high-impact clauses.
     # - MEDIUM depends on the share of medium-or-above clauses.
-    if critical_clause_ratio > 0.10:
+    if critical_clause_ratio > 0.15:
         overall_risk = "CRITICAL"
-    elif high_impact_clause_ratio > 0.10:
+    elif high_impact_clause_ratio > 0.15:
         overall_risk = "HIGH"
     elif risky_clause_ratio >= 0.05:
         overall_risk = "MEDIUM"
