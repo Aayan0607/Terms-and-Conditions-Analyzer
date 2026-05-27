@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analysis Results</title>
+    <title>ClauseLens | Analysis Results</title>
     <link rel="stylesheet" href="{{ url_for('frontend.static', filename='style.css') }}">
 </head>
 <body>
     <div class="page-shell results-shell">
         <section class="results-hero">
             <div>
+                <div class="brand-lockup brand-lockup-compact" aria-label="ClauseLens">
+                    <img
+                        src="{{ url_for('frontend.static', filename='images/clauselens-mark.svg') }}"
+                        alt="ClauseLens logo"
+                        class="brand-mark"
+                    >
+                    <div class="brand-text">
+                        <span class="brand-name">ClauseLens</span>
+                        <span class="brand-tagline">Structured Contract Review</span>
+                    </div>
+                </div>
                 <div class="hero-rule"></div>
                 <a href="{{ url_for('frontend.home') }}" class="text-link">Back to analyzer</a>
                 <span class="eyebrow">Analysis Complete</span>
