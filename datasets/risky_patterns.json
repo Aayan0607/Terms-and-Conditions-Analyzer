@@ -1,51 +1,105 @@
 {
-  "Auto Renewal": {
-    "severity": "high",
-    "description": "Automatically renews subscriptions or memberships without requiring fresh user consent.",
-    "examples": [
-      "subscription renews automatically unless cancelled",
-      "membership renews every year automatically",
-      "billing recurs monthly without further notice"
-    ]
-  },
-
   "Data Sharing": {
     "severity": "critical",
-    "description": "Allows personal information to be shared with external parties, creating privacy and security risks.",
+    "description": "Allows personal or sensitive user information to be shared, sold, transferred, or disclosed to external entities.",
     "examples": [
-      "we may share your personal data with third parties",
-      "user information may be disclosed to partners",
-      "your data can be transferred to advertisers"
-    ]
-  },
-
-  "Termination Rights": {
-    "severity": "high",
-    "description": "Gives the company broad authority to suspend or terminate accounts without warning.",
-    "examples": [
-      "we may terminate your account at any time",
-      "services may be discontinued without notice",
-      "access can be revoked at sole discretion"
+      "we may share your personal information with third parties",
+      "user data may be disclosed to advertising partners",
+      "your information can be transferred to affiliated organizations",
+      "we may provide customer data to service providers",
+      "personal details may be shared for marketing purposes",
+      "information collected from users may be distributed to external vendors"
     ]
   },
 
   "Hidden Charges": {
     "severity": "critical",
-    "description": "Permits unexpected fees or pricing changes that may financially impact users.",
+    "description": "Permits additional fees, billing changes, or unexpected financial obligations without explicit notice.",
     "examples": [
-      "additional fees may apply without prior notice",
-      "service charges can be modified at any time",
-      "pricing may change without user consent"
+      "additional charges may apply without prior notice",
+      "pricing may change at any time",
+      "service fees can be modified without user consent",
+      "subscription costs may increase automatically",
+      "extra billing charges may be introduced",
+      "rates are subject to change without notification"
     ]
   },
 
   "Liability Waiver": {
     "severity": "critical",
-    "description": "Limits or removes the company’s responsibility for damages, losses, or legal claims.",
+    "description": "Limits or removes the company’s legal responsibility for damages, losses, errors, or service failures.",
     "examples": [
-      "we are not responsible for any damages",
-      "users waive the right to legal claims",
-      "company holds no liability for losses"
+      "we are not liable for any damages arising from service use",
+      "the company shall not be responsible for indirect losses",
+      "users agree to waive legal claims against the provider",
+      "services are provided without warranties of any kind",
+      "liability is limited to the maximum extent permitted by law",
+      "the platform assumes no responsibility for data loss or interruption"
+    ]
+  },
+
+  "Content Rights": {
+    "severity": "critical",
+    "description": "Grants the company broad ownership or usage rights over user-generated content or submissions.",
+    "examples": [
+      "uploaded content becomes property of the company",
+      "users grant a perpetual license to submitted material",
+      "we may reproduce or distribute your content without compensation",
+      "content submitted through the service may be reused commercially",
+      "the platform retains rights to modify uploaded material",
+      "feedback and submissions may be used without restriction"
+    ]
+  },
+
+  "Location Tracking": {
+    "severity": "critical",
+    "description": "Allows continuous monitoring or collection of a user’s physical location.",
+    "examples": [
+      "the application may collect real-time location information",
+      "gps tracking data can be monitored continuously",
+      "your physical movements may be recorded",
+      "location services may remain active in the background",
+      "the platform may track geographic activity for analytics",
+      "device location information may be stored and processed"
+    ]
+  },
+
+  "Biometric Data Usage": {
+    "severity": "critical",
+    "description": "Allows collection or processing of biometric identifiers such as fingerprints, facial recognition, or voiceprints.",
+    "examples": [
+      "facial recognition data may be collected",
+      "biometric identifiers can be stored for authentication",
+      "fingerprint information may be processed",
+      "voice recognition technology may analyze user input",
+      "retinal or facial scan data may be retained",
+      "biometric verification may be required for access"
+    ]
+  },
+
+  "Auto Renewal": {
+    "severity": "high",
+    "description": "Automatically renews subscriptions or memberships without requiring fresh user approval.",
+    "examples": [
+      "subscriptions renew automatically unless cancelled",
+      "membership fees will recur monthly",
+      "billing continues until the user terminates the service",
+      "your plan will renew at the end of the billing cycle",
+      "automatic recurring payments are enabled by default",
+      "renewal charges may be processed without additional confirmation"
+    ]
+  },
+
+  "Account Termination": {
+    "severity": "high",
+    "description": "Allows suspension, restriction, or termination of user accounts at the company’s discretion.",
+    "examples": [
+      "we may terminate your account at any time",
+      "access may be suspended without prior notice",
+      "services can be discontinued at our sole discretion",
+      "accounts may be restricted for policy violations",
+      "the platform reserves the right to revoke access",
+      "automated systems may disable accounts without warning"
     ]
   },
 
@@ -54,88 +108,440 @@
     "description": "Requires disputes to be resolved privately instead of through courts.",
     "examples": [
       "all disputes must be resolved through arbitration",
-      "users waive the right to court proceedings",
-      "disputes must be resolved through binding arbitration"
-    ]
-  },
-
-  "Content Ownership Transfer": {
-    "severity": "critical",
-    "description": "Transfers ownership or broad usage rights of user-created content to the company.",
-    "examples": [
-      "uploaded content becomes property of the company",
-      "users grant perpetual rights to submitted material",
-      "platform may reuse your content without compensation"
-    ]
-  },
-
-  "Location Tracking": {
-    "severity": "critical",
-    "description": "Allows continuous collection or monitoring of a user’s physical location.",
-    "examples": [
-      "application may collect real-time location data",
-      "gps information can be monitored continuously",
-      "user movements may be tracked for analytics"
-    ]
-  },
-
-  "Data Retention": {
-    "severity": "high",
-    "description": "Allows the company to retain user data even after account deletion or inactivity.",
-    "examples": [
-      "personal information may be retained after account deletion",
-      "records can be stored for legal compliance purposes",
-      "deleted data may persist in backup systems"
-    ]
-  },
-
-  "Cross-Border Data Transfer": {
-    "severity": "high",
-    "description": "Permits user data to be stored or processed in foreign jurisdictions with different privacy laws.",
-    "examples": [
-      "information may be processed outside your country",
-      "user data can be transferred internationally",
-      "foreign servers may store personal records"
-    ]
-  },
-
-  "Biometric Data Usage": {
-    "severity": "critical",
-    "description": "Allows collection or processing of sensitive biometric identifiers such as fingerprints or facial scans.",
-    "examples": [
-      "facial recognition data may be collected",
-      "fingerprint information can be stored for authentication",
-      "biometric identifiers may be processed by the service"
+      "users waive the right to a jury trial",
+      "claims may only be settled through binding arbitration",
+      "court proceedings are prohibited under these terms",
+      "legal disputes shall be handled privately",
+      "arbitration is the exclusive remedy for disagreements"
     ]
   },
 
   "Class Action Waiver": {
     "severity": "high",
-    "description": "Prevents users from joining collective legal actions against the company.",
+    "description": "Prevents users from participating in collective lawsuits or group legal actions.",
     "examples": [
       "users may not participate in class action lawsuits",
-      "claims must be filed individually",
-      "collective legal proceedings are prohibited"
+      "claims must be brought individually",
+      "collective legal proceedings are prohibited",
+      "you waive the right to join class actions",
+      "disputes must be resolved on an individual basis",
+      "group claims are not permitted under this agreement"
+    ]
+  },
+
+  "Data Retention": {
+    "severity": "high",
+    "description": "Allows user information to be retained even after deletion, inactivity, or termination.",
+    "examples": [
+      "data may be retained after account deletion",
+      "records can be stored for compliance purposes",
+      "deleted information may persist in backups",
+      "personal information may be archived indefinitely",
+      "user activity logs can remain after service termination",
+      "retention periods may extend beyond account closure"
     ]
   },
 
   "Payment Authorization": {
     "severity": "high",
-    "description": "Allows stored payment methods to be charged automatically under certain conditions.",
+    "description": "Permits automatic charging of stored payment methods or billing credentials.",
     "examples": [
-      "saved payment methods may be charged automatically",
-      "billing information can be stored for future purchases",
-      "transactions may proceed using default payment settings"
+      "stored payment methods may be charged automatically",
+      "billing information can be retained for future purchases",
+      "transactions may proceed using saved cards",
+      "default payment settings authorize recurring charges",
+      "future purchases may use previously stored payment details",
+      "payment credentials may remain on file"
     ]
   },
 
   "Refund Restrictions": {
     "severity": "high",
-    "description": "Limits a user's ability to recover payments or receive reimbursements.",
+    "description": "Limits the ability of users to obtain refunds, reimbursements, or cancellations.",
     "examples": [
-      "payments may be non-refundable after processing",
-      "refund eligibility can be limited by policy",
-      "partial reimbursements may be denied at discretion"
+      "payments are non-refundable after processing",
+      "refund eligibility may be restricted",
+      "partial reimbursements may be denied",
+      "cancellation fees may apply",
+      "refund requests can be rejected at our discretion",
+      "digital purchases may not qualify for refunds"
+    ]
+  },
+
+  "Unauthorized Access Disclaimer": {
+    "severity": "high",
+    "description": "Disclaims responsibility for unauthorized account access, breaches, or credential misuse.",
+    "examples": [
+      "we are not liable for unauthorized access to your account",
+      "credential misuse remains the user’s responsibility",
+      "compromised passwords do not create company liability",
+      "users are responsible for maintaining account security",
+      "account breaches may occur at user risk",
+      "the platform is not responsible for stolen credentials"
+    ]
+  },
+
+  "Chargeback Penalties": {
+    "severity": "high",
+    "description": "Allows penalties or account restrictions for disputed payments or chargebacks.",
+    "examples": [
+      "chargebacks may result in additional fees",
+      "accounts can be suspended after payment disputes",
+      "reversed transactions may incur penalties",
+      "disputed charges can trigger account limitations",
+      "payment reversals may lead to service termination",
+      "administrative fees may apply to chargeback claims"
+    ]
+  },
+
+  "Collection Agency Transfer": {
+    "severity": "high",
+    "description": "Allows unpaid balances or debts to be transferred to collection agencies.",
+    "examples": [
+      "delinquent balances may be referred to collection agencies",
+      "debt recovery services may pursue unpaid amounts",
+      "outstanding payments can be transferred for collection",
+      "legal action may be initiated for unpaid fees",
+      "unsettled balances may be reported for recovery",
+      "the company may engage third-party debt collectors"
+    ]
+  },
+
+  "Security Breach Notification Delay": {
+    "severity": "high",
+    "description": "Allows delayed disclosure of security incidents or data breaches.",
+    "examples": [
+      "breach notifications may be delayed",
+      "users may not be informed immediately after incidents",
+      "security disclosures can depend on investigations",
+      "notification timing is subject to legal requirements",
+      "data breach reporting may be postponed",
+      "the company may delay informing affected users"
+    ]
+  },
+
+  "Legal Hold Retention": {
+    "severity": "high",
+    "description": "Permits retention of user data for investigations, litigation, or regulatory compliance.",
+    "examples": [
+      "data may be retained for legal investigations",
+      "records can be preserved during litigation",
+      "information may remain stored for compliance purposes",
+      "legal hold obligations may override deletion requests",
+      "user data may persist due to regulatory requirements",
+      "documents may be archived for dispute resolution"
+    ]
+  },
+
+  "Monitoring and Tracking": {
+    "severity": "high",
+    "description": "Allows monitoring of user activity, communications, files, or behavior for analytics, security, or enforcement.",
+    "examples": [
+      "network activity may be monitored",
+      "uploaded files can be scanned automatically",
+      "communications may undergo automated review",
+      "user behavior may be analyzed for fraud prevention",
+      "activity logs may be collected for security purposes",
+      "the platform may inspect content for policy enforcement"
+    ]
+  },
+
+  "Service Modification": {
+    "severity": "medium",
+    "description": "Allows the provider to change, remove, discontinue, or modify services and features.",
+    "examples": [
+      "features may change without notice",
+      "services can be modified at our discretion",
+      "certain functionality may be discontinued",
+      "subscription plans may be restructured",
+      "legacy systems can be retired",
+      "the platform reserves the right to alter service availability"
+    ]
+  },
+
+  "User Responsibility": {
+    "severity": "medium",
+    "description": "Places responsibility for account usage, compliance, backups, or actions on the user.",
+    "examples": [
+      "users are solely responsible for their actions",
+      "account holders assume all associated risks",
+      "users must maintain independent backups",
+      "password protection remains the user’s responsibility",
+      "compliance with laws is the responsibility of the account holder",
+      "the user is responsible for all activity under the account"
+    ]
+  },
+
+  "Fair Use Policy": {
+    "severity": "medium",
+    "description": "Restricts excessive, abusive, or abnormal usage of services.",
+    "examples": [
+      "usage must remain within acceptable limits",
+      "excessive consumption may result in restrictions",
+      "abnormal activity can trigger limitations",
+      "services cannot be exploited beyond normal use",
+      "resource-intensive behavior may be restricted",
+      "fair usage thresholds may apply"
+    ]
+  },
+
+  "Commercial Use Restriction": {
+    "severity": "medium",
+    "description": "Prohibits commercial, resale, or business usage without authorization.",
+    "examples": [
+      "services are intended for personal use only",
+      "commercial exploitation is prohibited",
+      "business usage requires prior approval",
+      "services may not be resold",
+      "unauthorized redistribution is forbidden",
+      "licenses cannot be sublicensed without permission"
+    ]
+  },
+
+  "Marketplace Transaction Disclaimer": {
+    "severity": "medium",
+    "description": "Disclaims responsibility for user-to-user transactions or marketplace disputes.",
+    "examples": [
+      "transactions occur solely between users",
+      "we are not responsible for marketplace disputes",
+      "buyers and sellers assume transaction risks",
+      "the platform does not guarantee third-party listings",
+      "payment disputes between users are not our responsibility",
+      "user interactions occur at your own risk"
+    ]
+  },
+
+  "Force Majeure": {
+    "severity": "medium",
+    "description": "Excuses failures or delays caused by extraordinary events beyond company control.",
+    "examples": [
+      "service interruptions may occur due to natural disasters",
+      "events beyond reasonable control may excuse obligations",
+      "performance may be affected by emergencies",
+      "unforeseeable circumstances can delay services",
+      "the company is not liable for disruptions caused by force majeure",
+      "external events may impact service availability"
+    ]
+  },
+
+  "Assignment Rights": {
+    "severity": "medium",
+    "description": "Allows contractual rights or obligations to be transferred to another organization.",
+    "examples": [
+      "agreements may be assigned to affiliates",
+      "rights can transfer to successor organizations",
+      "obligations may pass to another entity",
+      "the company may transfer this agreement without notice",
+      "ownership changes may include transfer of contractual rights",
+      "successors may assume responsibilities under these terms"
+    ]
+  },
+
+  "Electronic Signature Consent": {
+    "severity": "medium",
+    "description": "Treats electronic acceptance or digital interaction as legally binding consent.",
+    "examples": [
+      "electronic acceptance constitutes a legal signature",
+      "digital agreements are legally enforceable",
+      "click-through acceptance forms binding contracts",
+      "online consent carries legal effect",
+      "electronic records satisfy signature requirements",
+      "continued use indicates agreement to these terms"
+    ]
+  },
+
+  "Community Guideline Enforcement": {
+    "severity": "medium",
+    "description": "Allows moderation, removal, or enforcement actions based on platform rules.",
+    "examples": [
+      "violations may result in account suspension",
+      "moderators may remove prohibited content",
+      "community standards can trigger enforcement actions",
+      "policy breaches may restrict platform access",
+      "content violating guidelines may be deleted",
+      "enforcement decisions remain at the company’s discretion"
+    ]
+  },
+
+  "Personalized Search Results": {
+    "severity": "medium",
+    "description": "Uses user activity or behavioral data to personalize search rankings or recommendations.",
+    "examples": [
+      "search results may be personalized",
+      "recommendations can depend on prior activity",
+      "algorithms may tailor displayed content",
+      "user engagement may influence visibility",
+      "search rankings can vary between users",
+      "activity history may shape recommendations"
+    ]
+  },
+
+  "Content Recommendation Algorithms": {
+    "severity": "medium",
+    "description": "Uses automated systems to prioritize, recommend, or filter content.",
+    "examples": [
+      "algorithms may personalize user feeds",
+      "content visibility can be determined automatically",
+      "recommendation systems may prioritize engagement",
+      "automated ranking systems may shape displayed information",
+      "machine learning may influence content exposure",
+      "platform algorithms can customize recommendations"
+    ]
+  },
+
+  "Confidentiality Requirement": {
+    "severity": "medium",
+    "description": "Requires users to protect confidential or proprietary information.",
+    "examples": [
+      "confidential information may not be disclosed",
+      "trade secrets must remain protected",
+      "non-public information requires safeguarding",
+      "sensitive business data cannot be shared",
+      "users must maintain confidentiality obligations",
+      "restricted information may only be used internally"
+    ]
+  },
+
+  "Non-Disclosure Obligation": {
+    "severity": "medium",
+    "description": "Prohibits disclosure or sharing of protected information.",
+    "examples": [
+      "users agree not to disclose confidential details",
+      "sensitive information must remain private",
+      "unauthorized disclosure is prohibited",
+      "protected material may not be shared externally",
+      "confidential communications cannot be distributed",
+      "information covered by nondisclosure obligations must remain secure"
+    ]
+  },
+
+  "Data Export Compliance": {
+    "severity": "medium",
+    "description": "Requires compliance with international trade, export, or regional laws.",
+    "examples": [
+      "users must comply with export regulations",
+      "regional laws may restrict service availability",
+      "trade compliance obligations may apply",
+      "restricted jurisdictions may be prohibited",
+      "access may be limited based on local regulations",
+      "users are responsible for legal compliance in their region"
+    ]
+  },
+
+  "Promotional Offer Withdrawal": {
+    "severity": "medium",
+    "description": "Allows promotional offers, discounts, or benefits to be modified or revoked.",
+    "examples": [
+      "promotions may end without notice",
+      "discounts can be withdrawn at any time",
+      "offers are subject to change",
+      "special pricing may be discontinued",
+      "promotional benefits may be revoked",
+      "limited-time offers can expire without warning"
+    ]
+  },
+
+  "Reward Expiration": {
+    "severity": "medium",
+    "description": "Causes earned credits, rewards, or loyalty benefits to expire over time.",
+    "examples": [
+      "reward points may expire after inactivity",
+      "unused credits can be forfeited",
+      "benefits may lapse over time",
+      "loyalty rewards are subject to expiration",
+      "unused balances may be removed",
+      "reward programs may terminate accumulated benefits"
+    ]
+  },
+
+  "Beta Feature Risks": {
+    "severity": "low",
+    "description": "Warns that experimental or beta features may be unstable or unreliable.",
+    "examples": [
+      "beta services are provided as is",
+      "experimental features may contain errors",
+      "preview functionality may not operate reliably",
+      "testing features may experience interruptions",
+      "early-access systems can malfunction",
+      "beta tools may change without notice"
+    ]
+  },
+
+  "Affiliate Marketing Disclosure": {
+    "severity": "low",
+    "description": "Indicates the company may receive commissions or compensation from referrals or links.",
+    "examples": [
+      "affiliate commissions may be earned",
+      "purchases through links may generate revenue",
+      "partner referrals can provide compensation",
+      "the company may receive advertising payments",
+      "sponsored recommendations may appear on the platform",
+      "referral links may result in financial benefits"
+    ]
+  },
+
+  "Rate Limiting": {
+    "severity": "low",
+    "description": "Restricts excessive requests, access frequency, or service usage volume.",
+    "examples": [
+      "requests may be throttled",
+      "usage limits can be enforced",
+      "access may be temporarily restricted for excessive activity",
+      "request frequency may be controlled automatically",
+      "rate limits apply to platform usage",
+      "high-volume activity can trigger temporary blocks"
+    ]
+  },
+
+  "Notice Delivery Method": {
+    "severity": "low",
+    "description": "Specifies how updates, notices, or legal communications are delivered.",
+    "examples": [
+      "notices may be delivered electronically",
+      "email communication constitutes valid notice",
+      "updates may be posted on the website",
+      "continued use indicates acceptance of revised terms",
+      "notifications may be sent through the application",
+      "policy updates may not require direct communication"
+    ]
+  },
+
+  "Severability Clause": {
+    "severity": "low",
+    "description": "States that invalid clauses do not affect the enforceability of remaining terms.",
+    "examples": [
+      "invalid provisions do not affect remaining terms",
+      "unenforceable clauses shall be severed",
+      "other provisions remain fully effective",
+      "the remainder of the agreement stays enforceable",
+      "partial invalidity does not void the contract",
+      "remaining sections continue in force"
+    ]
+  },
+
+  "Entire Agreement Clause": {
+    "severity": "low",
+    "description": "States that the written agreement overrides prior discussions or understandings.",
+    "examples": [
+      "these terms constitute the entire agreement",
+      "prior representations are superseded",
+      "oral agreements are not binding",
+      "previous understandings are replaced by this contract",
+      "this document contains the complete agreement",
+      "earlier communications hold no contractual effect"
+    ]
+  },
+
+  "Waiver Clause": {
+    "severity": "low",
+    "description": "States that failure to enforce rights does not permanently waive them.",
+    "examples": [
+      "failure to enforce is not considered a waiver",
+      "rights remain reserved despite delayed enforcement",
+      "non-enforcement does not invalidate future claims",
+      "waived rights may still be exercised later",
+      "delays in enforcement do not remove legal protections",
+      "the company retains all contractual rights"
     ]
   }
 }
