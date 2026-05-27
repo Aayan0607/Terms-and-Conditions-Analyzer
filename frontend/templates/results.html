@@ -4,7 +4,242 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClauseLens | Analysis Results</title>
+    <meta name="description" content="Contract risk analysis results with severity breakdown, intent distribution, and graphical data visualizations from ClauseLens.">
     <link rel="stylesheet" href="{{ url_for('frontend.static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <style>
+        /* ── Data Analytics Section ─────────────────────────── */
+        .analytics-section {
+            margin-top: 24px;
+        }
+
+        .analytics-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .analytics-header h2 {
+            margin: 0;
+            font-size: clamp(1.5rem, 2vw, 2rem);
+        }
+
+        .analytics-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(44, 95, 153, 0.08);
+            color: var(--accent-deep);
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border: 1px solid rgba(44, 95, 153, 0.14);
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .chart-card {
+            background: linear-gradient(160deg, rgba(255,255,255,0.95), rgba(238,245,255,0.90));
+            border: 1px solid rgba(29, 79, 143, 0.10);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(5,19,39,0.14);
+            backdrop-filter: blur(12px);
+            padding: 26px 28px 28px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 28px 72px rgba(5,19,39,0.20);
+        }
+
+        .chart-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(135deg, rgba(255,255,255,0.5), transparent 42%);
+        }
+
+        .chart-card-full {
+            grid-column: 1 / -1;
+        }
+
+        .chart-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--accent-deep);
+            margin: 0 0 4px;
+        }
+
+        .chart-subtitle {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin: 0 0 20px;
+        }
+
+        .chart-wrap {
+            position: relative;
+            height: 260px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chart-wrap canvas {
+            max-height: 260px;
+        }
+
+        /* Legend pills */
+        .chart-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 18px;
+            justify-content: center;
+        }
+
+        .legend-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .legend-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* Stat callout inside chart card */
+        .chart-stat-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        .chart-stat {
+            flex: 1;
+            min-width: 100px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(238,245,255,0.88);
+            border: 1px solid rgba(29,79,143,0.08);
+            text-align: center;
+        }
+
+        .chart-stat span {
+            display: block;
+            font-size: 0.76rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+        }
+
+        .chart-stat strong {
+            display: block;
+            margin-top: 4px;
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--accent-deep);
+        }
+
+        /* Donut centre label */
+        .donut-center-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .donut-center-label .dcl-value {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            color: var(--accent-deep);
+            line-height: 1;
+        }
+
+        .donut-center-label .dcl-label {
+            font-size: 0.72rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+        }
+
+        /* Risk bar (horizontal) */
+        .risk-bar-wrap {
+            margin-top: 20px;
+        }
+
+        .risk-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .risk-bar-label {
+            width: 72px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--accent-deep);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            flex-shrink: 0;
+        }
+
+        .risk-bar-track {
+            flex: 1;
+            height: 12px;
+            border-radius: 999px;
+            background: rgba(29,79,143,0.07);
+            overflow: hidden;
+        }
+
+        .risk-bar-fill {
+            height: 100%;
+            border-radius: 999px;
+            transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .risk-bar-count {
+            width: 32px;
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--text);
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 860px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            .chart-card-full {
+                grid-column: 1;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="page-shell results-shell">
@@ -22,7 +257,7 @@
                     </div>
                 </div>
                 <div class="hero-rule"></div>
-                <a href="{{ url_for('frontend.home') }}" class="text-link">Back to analyzer</a>
+                <a href="{{ url_for('frontend.home') }}" class="text-link">← Back to analyzer</a>
                 <span class="eyebrow">Analysis Complete</span>
                 <h1>Contract Risk Summary</h1>
                 <p class="hero-text">
@@ -41,7 +276,8 @@
             </div>
         </section>
 
-        <section class="stat-grid">
+        <!-- Stat cards -->
+        <section class="stat-grid" aria-label="Summary statistics">
             <article class="stat-card">
                 <span>Total clauses reviewed</span>
                 <strong>{{ total_clauses }}</strong>
@@ -67,6 +303,133 @@
                 <strong>{{ severity_count['low'] }}</strong>
             </article>
         </section>
+
+        <!-- ── DATA ANALYTICS VISUALIZATIONS ─────────────────── -->
+        <section class="analytics-section" aria-label="Data analytics visualizations">
+            <div class="analytics-header">
+                <span class="analytics-kicker">📊 Data Analytics</span>
+                <h2>Visual Risk Analysis</h2>
+            </div>
+
+            <div class="charts-grid">
+
+                <!-- Chart 1: Severity Distribution (Doughnut) -->
+                <div class="chart-card" id="chart-card-severity">
+                    <h3 class="chart-title">Severity Distribution</h3>
+                    <p class="chart-subtitle">Proportion of clauses by severity level</p>
+                    <div class="chart-wrap" style="position:relative;">
+                        <canvas id="severityChart" aria-label="Severity distribution pie chart" role="img"></canvas>
+                        <div class="donut-center-label">
+                            <div class="dcl-value">{{ total_clauses }}</div>
+                            <div class="dcl-label">Clauses</div>
+                        </div>
+                    </div>
+                    <div class="chart-legend" id="severity-legend"></div>
+                </div>
+
+                <!-- Chart 2: Classification Accuracy (Doughnut + per-severity bars) -->
+                <div class="chart-card" id="chart-card-accuracy">
+                    <h3 class="chart-title">Classification Accuracy</h3>
+                    <p class="chart-subtitle">Confidence bands based on cosine similarity scores</p>
+                    <div class="chart-wrap" style="position:relative;">
+                        <canvas id="accuracyChart" aria-label="Classification accuracy pie chart" role="img"></canvas>
+                        <div class="donut-center-label">
+                            <div class="dcl-value">{{ overall_accuracy }}%</div>
+                            <div class="dcl-label">Avg accuracy</div>
+                        </div>
+                    </div>
+                    <div class="chart-legend" id="accuracy-legend"></div>
+                    <!-- Per-severity accuracy mini-bars -->
+                    <div class="risk-bar-wrap" style="margin-top:18px;" id="accuracy-bars">
+                        {% for sev, label, color in [
+                            ('critical', 'Critical', '#153860'),
+                            ('high',     'High',     '#1c5aa2'),
+                            ('medium',   'Medium',   '#3f7ec9'),
+                            ('low',      'Low',      '#4da8d6')
+                        ] %}
+                        <div class="risk-bar-row">
+                            <span class="risk-bar-label">{{ label }}</span>
+                            <div class="risk-bar-track">
+                                <div
+                                    class="risk-bar-fill"
+                                    style="width:0%; background: {{ color }};"
+                                    data-width="{{ accuracy_by_severity[sev] }}"
+                                ></div>
+                            </div>
+                            <span class="risk-bar-count" style="width:44px;">{{ accuracy_by_severity[sev] }}%</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Chart 3: Risky vs Safe (Pie) -->
+                <div class="chart-card" id="chart-card-risk-split">
+                    <h3 class="chart-title">Risky vs. Safe Clauses</h3>
+                    <p class="chart-subtitle">Share of flagged vs. acceptable clauses</p>
+                    <div class="chart-wrap">
+                        <canvas id="riskSplitChart" aria-label="Risky vs safe clauses pie chart" role="img"></canvas>
+                    </div>
+                    <div class="chart-stat-row">
+                        <div class="chart-stat">
+                            <span>Risky</span>
+                            <strong id="stat-risky">{{ risky_clause_count }}</strong>
+                        </div>
+                        <div class="chart-stat">
+                            <span>Safe</span>
+                            <strong id="stat-safe">{{ total_clauses - risky_clause_count }}</strong>
+                        </div>
+                        <div class="chart-stat">
+                            <span>Risky ratio</span>
+                            <strong id="stat-ratio">{{ "%.0f"|format(risky_clause_ratio * 100) }}%</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart 4: Severity bar breakdown (full-width) -->
+                <div class="chart-card" id="chart-card-bars">
+                    <h3 class="chart-title">Severity Count — at a Glance</h3>
+                    <p class="chart-subtitle">Horizontal bar breakdown of each severity tier</p>
+                    <div class="risk-bar-wrap" id="severity-bars">
+                        {% set bars = [
+                            ('Critical', severity_count['critical'], '#153860', total_clauses),
+                            ('High',     severity_count['high'],     '#1c5aa2', total_clauses),
+                            ('Medium',   severity_count['medium'],   '#3f7ec9', total_clauses),
+                            ('Low',      severity_count['low'],      '#4da8d6', total_clauses)
+                        ] %}
+                        {% for label, count, color, total in bars %}
+                        <div class="risk-bar-row">
+                            <span class="risk-bar-label">{{ label }}</span>
+                            <div class="risk-bar-track">
+                                <div
+                                    class="risk-bar-fill"
+                                    style="width: {{ ((count / total * 100) if total > 0 else 0)|round(1) }}%; background: {{ color }};"
+                                    data-width="{{ ((count / total * 100) if total > 0 else 0)|round(1) }}"
+                                ></div>
+                            </div>
+                            <span class="risk-bar-count">{{ count }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!-- Small meta stats row -->
+                    <div class="chart-stat-row" style="margin-top:24px;">
+                        <div class="chart-stat">
+                            <span>Avg risk score</span>
+                            <strong>{{ average_risk_score }}/10</strong>
+                        </div>
+                        <div class="chart-stat">
+                            <span>High-impact</span>
+                            <strong>{{ high_impact_clause_count }}</strong>
+                        </div>
+                        <div class="chart-stat">
+                            <span>Overall risk</span>
+                            <strong>{{ overall_risk }}</strong>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!-- ── END DATA ANALYTICS ─────────────────────────────── -->
 
         <section class="results-toolbar">
             <div class="toolbar-copy">
@@ -128,6 +491,212 @@
             {% endfor %}
         </section>
     </div>
+
+    <!-- Pass Jinja2 data to JS as JSON -->
+    <script id="analytics-data" type="application/json">
+    {
+        "severityCount": {
+            "Critical": {{ severity_count['critical'] }},
+            "High":     {{ severity_count['high'] }},
+            "Medium":   {{ severity_count['medium'] }},
+            "Low":      {{ severity_count['low'] }}
+        },
+        "confidenceBands": {{ confidence_bands | tojson }},
+        "totalClauses":      {{ total_clauses }},
+        "riskyClauseCount":  {{ risky_clause_count }},
+        "safeClauses":       {{ total_clauses - risky_clause_count }}
+    }
+    </script>
+
     <script src="{{ url_for('frontend.static', filename='app.js') }}"></script>
+    <script>
+    (function () {
+        /* ── Read data ─────────────────────────── */
+        const raw   = document.getElementById("analytics-data").textContent;
+        const data  = JSON.parse(raw);
+
+        /* ── Palette ───────────────────────────── */
+        const SEVERITY_COLORS = {
+            Critical: { bg: "rgba(21,56,96,0.88)",  border: "#153860" },
+            High:     { bg: "rgba(28,90,162,0.82)",  border: "#1c5aa2" },
+            Medium:   { bg: "rgba(63,126,201,0.80)", border: "#3f7ec9" },
+            Low:      { bg: "rgba(77,168,214,0.78)", border: "#4da8d6" }
+        };
+
+        const INTENT_PALETTE = [
+            { bg: "rgba(21,56,96,0.85)",   border: "#153860" },
+            { bg: "rgba(28,90,162,0.82)",  border: "#1c5aa2" },
+            { bg: "rgba(63,126,201,0.80)", border: "#3f7ec9" },
+            { bg: "rgba(77,168,214,0.78)", border: "#4da8d6" },
+            { bg: "rgba(45,95,115,0.78)",  border: "#2d5f73" },
+            { bg: "rgba(100,150,200,0.75)",border: "#6496c8" }
+        ];
+
+        const RISK_SPLIT_COLORS = {
+            Risky: { bg: "rgba(21,56,96,0.88)",  border: "#153860" },
+            Safe:  { bg: "rgba(77,168,214,0.78)", border: "#4da8d6" }
+        };
+
+        /* ── Shared defaults ───────────────────── */
+        const CHART_DEFAULTS = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: "rgba(15,34,56,0.92)",
+                    titleFont: { family: "Avenir Next, Helvetica Neue, Segoe UI, sans-serif", weight: "700" },
+                    bodyFont:  { family: "Avenir Next, Helvetica Neue, Segoe UI, sans-serif" },
+                    padding: 12,
+                    cornerRadius: 10,
+                    callbacks: {
+                        label: ctx => {
+                            const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                            const pct   = total > 0 ? ((ctx.parsed / total) * 100).toFixed(1) : 0;
+                            return `  ${ctx.label}: ${ctx.parsed} (${pct}%)`;
+                        }
+                    }
+                }
+            }
+        };
+
+        /* ── Helper: build custom legend ──────── */
+        function buildLegend(containerId, labels, colors) {
+            const el = document.getElementById(containerId);
+            if (!el) return;
+            el.innerHTML = labels.map((lbl, i) => `
+                <span class="legend-pill" style="background:${colors[i].bg}20; border:1px solid ${colors[i].border}40; color:${colors[i].border}">
+                    <span class="legend-dot" style="background:${colors[i].bg};"></span>
+                    ${lbl}
+                </span>
+            `).join("");
+        }
+
+        /* ── 1. Severity doughnut ──────────────── */
+        (function buildSeverityChart() {
+            const labels = Object.keys(data.severityCount);
+            const values = Object.values(data.severityCount);
+            const colors = labels.map(l => SEVERITY_COLORS[l]);
+
+            new Chart(document.getElementById("severityChart"), {
+                type: "doughnut",
+                data: {
+                    labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: colors.map(c => c.bg),
+                        borderColor:     colors.map(c => c.border),
+                        borderWidth: 2,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    ...CHART_DEFAULTS,
+                    cutout: "62%",
+                    animation: { animateRotate: true, duration: 1100 }
+                }
+            });
+
+            buildLegend("severity-legend", labels, colors);
+        })();
+
+        /* ── 2. Accuracy / Confidence-band doughnut ── */
+        (function buildAccuracyChart() {
+            const ACCURACY_COLORS = [
+                { bg: "rgba(21,56,96,0.88)",   border: "#153860" },   // High confidence
+                { bg: "rgba(63,126,201,0.80)", border: "#3f7ec9" },   // Medium confidence
+                { bg: "rgba(77,168,214,0.65)", border: "#4da8d6" }    // Low confidence
+            ];
+
+            const labels = Object.keys(data.confidenceBands);
+            const values = Object.values(data.confidenceBands);
+            const colors = labels.map((_, i) => ACCURACY_COLORS[i % ACCURACY_COLORS.length]);
+
+            new Chart(document.getElementById("accuracyChart"), {
+                type: "doughnut",
+                data: {
+                    labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: colors.map(c => c.bg),
+                        borderColor:     colors.map(c => c.border),
+                        borderWidth: 2,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    ...CHART_DEFAULTS,
+                    cutout: "62%",
+                    animation: { animateRotate: true, duration: 1200 },
+                    plugins: {
+                        ...CHART_DEFAULTS.plugins,
+                        tooltip: {
+                            ...CHART_DEFAULTS.plugins.tooltip,
+                            callbacks: {
+                                label: ctx => {
+                                    const total = ctx.dataset.data.reduce((a,b) => a+b, 0);
+                                    const pct   = total > 0 ? ((ctx.parsed / total)*100).toFixed(1) : 0;
+                                    return `  ${ctx.label}: ${ctx.parsed} clauses (${pct}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            buildLegend("accuracy-legend", labels, colors);
+
+            // Animate per-severity accuracy bars
+            const fills = document.querySelectorAll("#accuracy-bars .risk-bar-fill");
+            fills.forEach(f => { f.style.width = "0"; });
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    fills.forEach(f => { f.style.width = (f.dataset.width || "0") + "%"; });
+                }, 180);
+            });
+        })();
+
+        /* ── 3. Risky vs Safe pie ──────────────── */
+        (function buildRiskSplitChart() {
+            const labels = ["Risky", "Safe"];
+            const values = [data.riskyClauseCount, data.safeClauses];
+            const colors = [RISK_SPLIT_COLORS.Risky, RISK_SPLIT_COLORS.Safe];
+
+            new Chart(document.getElementById("riskSplitChart"), {
+                type: "pie",
+                data: {
+                    labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: colors.map(c => c.bg),
+                        borderColor:     colors.map(c => c.border),
+                        borderWidth: 2,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    ...CHART_DEFAULTS,
+                    animation: { animateRotate: true, duration: 1000 }
+                }
+            });
+        })();
+
+        /* ── 4. Animate horizontal bars on load ── */
+        (function animateBars() {
+            const fills = document.querySelectorAll(".risk-bar-fill");
+            // Reset to 0, then animate
+            fills.forEach(f => { f.style.width = "0"; });
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    fills.forEach(f => {
+                        const target = f.dataset.width || "0";
+                        f.style.width = target + "%";
+                    });
+                }, 120);
+            });
+        })();
+
+    })();
+    </script>
 </body>
 </html>
